@@ -283,9 +283,12 @@ export function createLocalInfrastructureOverlayPublisher({ sourceId, host }) {
  * @returns {string} Short reason for getStats().error.
  */
 export function localDatasetError(error) {
-  if (error?.name === 'SyntaxError') return 'dataset is malformed';
+  if (error?.name === 'SyntaxError') return '数据集格式无效';
   const message = String(error?.message || '').trim();
-  return message ? `dataset unavailable (${message})` : 'dataset unavailable';
+  if (!message) return '数据集不可用';
+  const http = /^HTTP (\d+|\?)$/.exec(message);
+  if (http) return `数据集不可用（HTTP ${http[1]}）`;
+  return '数据集不可用（详情未识别）';
 }
 
 /**
