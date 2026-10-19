@@ -2343,9 +2343,7 @@ export class SceneDirector {
       if (!pending.length) return;
       if (pending.some(({ maxWaitMs }) => Date.now() - began >= maxWaitMs)) {
         this.stopScene('场景媒体超时');
-        throw new Error(
-          'Scene media did not finish within its bounded playback window',
-        );
+        throw new Error('场景媒体未在限定时间内结束');
       }
       await this._sleep(70, token);
     }

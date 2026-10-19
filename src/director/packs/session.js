@@ -66,7 +66,7 @@ export function createDataPackSession({
     async load(packs, { anchors = [], signal } = {}) {
       clear();
       if (!Array.isArray(packs) || packs.length > PACK_LIMITS.packs)
-        throw new Error('Too many data packs');
+        throw new Error('数据包过多');
       const anchorIds = new Set(anchors.map((anchor) => anchor.id));
       packs.forEach((pack, i) =>
         validateDataPack(pack, `packs[${i}]`, anchorIds),
