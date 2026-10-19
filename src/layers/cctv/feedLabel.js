@@ -31,6 +31,8 @@ const PROVIDER = {
   'google street view': 'Google Street View',
   'synthetic fallback': '合成回退',
   'configured source': '已配置来源',
+  'configured cctv source': '已配置监控来源',
+  'osm camera grid': 'OSM 摄像头网格',
 };
 
 const CJK = /[\u4e00-\u9fff]/;

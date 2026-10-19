@@ -23,6 +23,8 @@ test('Chinese tokens and Google Street View stay', () => {
   assert.equal(paintedCctvToken('街景'), '街景');
   assert.equal(paintedCctvProvider('Google Street View'), 'Google Street View');
   assert.equal(paintedCctvProvider('Austin Open Data'), 'Austin Open Data');
+  assert.equal(paintedCctvProvider('OSM Camera Grid'), 'OSM 摄像头网格');
+  assert.equal(paintedCctvProvider('Configured CCTV Source'), '已配置监控来源');
 });
 
 test('known health sentences paint in Chinese', () => {
