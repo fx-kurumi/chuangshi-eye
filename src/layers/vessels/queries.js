@@ -8,6 +8,15 @@ import {
   AIS_FIRST_CONNECT_LABEL,
 } from './policy.js';
 
+/** Detection callout text. The stored `VESSEL` sentinel is not a name. */
+function vesselCalloutId(record) {
+  const name = String(record?.name || '').trim();
+  const mmsi = String(record?.mmsi || '').trim();
+  if (name && name !== 'VESSEL' && name !== '船舶' && name !== mmsi) return name;
+  if (mmsi) return `MMSI ${mmsi}`;
+  return '船舶';
+}
+
 export function createQueries({
   vesselState,
   services,
@@ -485,7 +494,7 @@ export function createQueries({
         result.push({
           position,
           sourceId: record.mmsi,
-          id: record.name || record.mmsi || 'VESSEL',
+          id: vesselCalloutId(record),
           type: 'SEA',
           skipLabel: record === selected,
           klass: record.type

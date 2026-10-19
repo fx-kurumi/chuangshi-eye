@@ -507,7 +507,7 @@ export function transitDetectionId(record) {
   if (route) return elideRouteText(route);
   const label = typeof record?.label === 'string' ? record.label.trim() : '';
   if (label) return elideRouteText(label);
-  return elideRouteText(String(record?.id || 'TRANSIT'));
+  return elideRouteText(String(record?.id || '车辆'));
 }
 
 /** Longest route text the single-line detection label can carry. */

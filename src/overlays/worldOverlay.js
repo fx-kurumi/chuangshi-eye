@@ -1269,7 +1269,7 @@ function ensureOverlayDom() {
     _accessibilityRoot.id = ACCESSIBILITY_ROOT_ID;
     _accessibilityRoot.className = 'world-overlay-accessibility';
     _accessibilityRoot.setAttribute('role', 'region');
-    _accessibilityRoot.setAttribute('aria-label', 'Visible map targets');
+    _accessibilityRoot.setAttribute('aria-label', '可见目标');
     document.body.appendChild(_accessibilityRoot);
   }
   _accessibilityList = document.getElementById(ACCESSIBILITY_LIST_ID);
