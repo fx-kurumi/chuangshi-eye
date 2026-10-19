@@ -3456,7 +3456,7 @@ test('analyst_query refusals carry their code and the allowed values', async () 
   const off = await runner('analyst_query', { layers: ['transit'] });
   assert.equal(off.code, 'LAYER_OFF');
   const ok = await runner('analyst_query', { layers: ['earthquakes'], scope: { kind: 'anywhere' } });
-  assert.equal(ok.display.window, 'last 24 h');
+  assert.equal(ok.display.window, '近 24 小时');
   assert.match(ok.items[0].time, /^\d{4}-\d\d-\d\dT/);
 });
 

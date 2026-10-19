@@ -520,6 +520,12 @@ function layerStatus(snapshot, rowCount, warming) {
 }
 /** A layer in one of these states can answer, including with a real zero. */
 const ANSWERABLE = new Set(['ok', 'empty']);
+/** Words painted on the voice card. Structured status ids stay English. */
+const PAINTED_STATUS = Object.freeze({
+  off: '关闭',
+  loading: '加载中',
+  error: '不可用',
+});
 
 /** Rows per scan slice before yielding to the page. */
 const SCAN_CHUNK = 20_000;
@@ -1025,7 +1031,9 @@ export function createAnalystEngine(providers) {
     for (const layer of layersQueried) {
       if (layer.note) caveats.push(`${layer.layerKey}: ${layer.note}`);
       else if (!ANSWERABLE.has(layer.status))
-        caveats.push(`${layer.layerKey} ${layer.status}`);
+        caveats.push(
+          `${layer.layerKey} ${PAINTED_STATUS[layer.status] || layer.status}`,
+        );
     }
     const distanceScoped =
       spec.sortBy === 'distance' ||

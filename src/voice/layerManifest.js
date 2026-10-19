@@ -109,7 +109,7 @@ const layers = [
         satelliteClass: ['t'],
         group: ['t'],
       },
-      caveat: 'distance is ground distance, not overhead',
+      caveat: '地面距离，不是头顶距离',
     },
   },
   {
@@ -132,7 +132,7 @@ const layers = [
         launchTimeMs: ['ms'],
         hoursUntil: ['n', 'h'],
       },
-      window: 'past 30 d and upcoming',
+      window: '近 30 天及即将',
     },
   },
   {
@@ -147,7 +147,7 @@ const layers = [
         timeMs: ['ms'],
       },
       timeField: 'timeMs',
-      window: 'last 24 h',
+      window: '近 24 小时',
     },
   },
   {
@@ -163,7 +163,7 @@ const layers = [
         acqTime: ['ms'],
       },
       timeField: 'acqTime',
-      window: 'last 24 h',
+      window: '近 24 小时',
     },
   },
   {

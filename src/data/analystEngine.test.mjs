@@ -350,6 +350,7 @@ test('analyst: satellites and local infrastructure are queryable layers', async 
   assert.equal(sats.count, 1, 'GPS sat is out of the Austin view radius');
   assert.equal(sats.items[0].noradId, '25544');
   assert.ok(Number.isFinite(sats.items[0].distanceKm));
+  assert.match(sats.display.caveat, /satellites: 地面距离，不是头顶距离/);
 
   const nav = await eng.query({
     layers: ['satellites'], scope: { kind: 'anywhere' },
@@ -502,8 +503,8 @@ test('time fields filter by ISO and derive ageHours; the feed window is exposed'
   const age = await engine.query({ layers: ['earthquakes'], scope: { kind: 'anywhere' }, filters: [{ field: 'ageHours', op: 'lte', value: 6 }] });
   assert.deepEqual(age.items.map((i) => i.id), ['recent']);
   assert.equal(age.items[0].ageHours, 2);
-  assert.equal(age.display.window, 'last 24 h');
-  assert.equal(age.coverage.layersQueried[0].window, 'last 24 h');
+  assert.equal(age.display.window, '近 24 小时');
+  assert.equal(age.coverage.layersQueried[0].window, '近 24 小时');
 });
 
 test('follow-up provenance stays attached to old rows after a feed recovers', async () => {
@@ -614,7 +615,12 @@ test('mixed off/loading/unavailable layers refuse; a partly answerable query say
   assert.equal(partial.ok, true);
   assert.equal(partial.partial, true);
   assert.deepEqual(partial.unanswered, ['earthquakes']);
-  assert.match(partial.display.caveat, /earthquakes error/);
+  assert.equal(
+    partial.coverage.layersQueried.find((layer) => layer.layerKey === 'earthquakes')
+      .status,
+    'error',
+  );
+  assert.match(partial.display.caveat, /earthquakes 不可用/);
 });
 
 test('returned items are copies: mutating them cannot change the remembered answer', async () => {
