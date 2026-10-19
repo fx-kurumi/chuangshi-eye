@@ -985,12 +985,12 @@
 }
 
 :root[data-ui-theme='cyber'] #command-dock > #location-bar::after {
-  content: 'LOC / GRID';
+  content: '位置 / 网格';
   left: 0.75rem;
 }
 
 :root[data-ui-theme='cyber'] #command-dock > #control-panel::after {
-  content: 'OPT / MATRIX';
+  content: '光学 / 矩阵';
   right: 0.75rem;
 }
 
@@ -1334,11 +1334,11 @@
 }
 
 :root[data-ui-theme='cyber'] #command-dock #location-bar-popover::before {
-  content: 'NAVIGATION DECK  //  01';
+  content: '导航台  //  01';
 }
 
 :root[data-ui-theme='cyber'] #command-dock #control-panel-popover::before {
-  content: 'VISUAL MATRIX  //  03';
+  content: '视觉矩阵  //  03';
 }
 
 :root[data-ui-theme='cyber']
@@ -1604,7 +1604,7 @@
 }
 
 #intel-hud[data-variant='cyber'] .hud-mode::after {
-  content: ' // CYBER';
+  content: ' // 赛博';
   color: var(--cyber-red-bright);
   font-size: 0.62em;
   letter-spacing: 0.18em;
@@ -1856,7 +1856,7 @@
   }
 
   :root[data-ui-theme='cyber'] #command-dock::before {
-    content: 'NAV // COMMAND // VIS';
+    content: '导航 // 指挥 // 视觉';
     top: -0.72rem;
   }
 }
@@ -2160,7 +2160,7 @@
 }
 
 :root[data-ui-theme='cyber'] body.cockpit-mode .cockpit-roll-arc::before {
-  content: 'TARGET SCANNING  //  LIVE VECTOR';
+  content: '目标扫描  //  实时矢量';
   position: absolute;
   top: -30px;
   left: 50%;
@@ -2217,7 +2217,7 @@
 }
 
 :root[data-ui-theme='cyber'] body.cockpit-mode .cockpit-topline::after {
-  content: 'SYS 06  //  SENSOR FUSION  //  READY';
+  content: '系统 06  //  传感器融合  //  就绪';
   grid-column: 3;
   justify-self: end;
   color: rgba(205, 225, 226, 0.6);

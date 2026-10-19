@@ -728,6 +728,32 @@ test('normalizes detailed payload and stage recovery records', () => {
   assert.equal(launches[0].recoveryStages[0].lon, -76.2);
 });
 
+test('unnamed recovery stages use the Chinese fallback instead of a category code', () => {
+  const [launch] = normalizeRocketLaunches({ results: [{
+    id: 'unnamed-stage',
+    net: '2026-07-20T10:00:00Z',
+    pad: { latitude: 1, longitude: 2 },
+    rocket: {
+      launcher_stage: [{
+        id: 1,
+        launcher: { serial_number: 'B1' },
+        landing: { attempt: false },
+      }],
+      spacecraft_stage: [{ id: 2, landing: { attempt: false } }],
+      payloads: [{
+        id: 9,
+        landing: { attempt: false },
+        payload: { name: 'TestSat' },
+      }],
+    },
+  }] }, NOW);
+  assert.equal(launch.recoveryStages[0].category, 'LAUNCHER');
+  assert.equal(launch.recoveryStages[0].name, '火箭级 1 · B1');
+  assert.equal(launch.recoveryStages[1].name, '飞船级 1');
+  assert.equal(launch.recoveryStages[2].category, 'PAYLOAD');
+  assert.equal(launch.recoveryStages[2].name, 'TestSat');
+});
+
 test('keeps payload and recovery collections empty when LL2 does not disclose them', () => {
   const launches = normalizeRocketLaunches({ results: [{
     id: 'undisclosed',

@@ -37,12 +37,20 @@ export function createModel({ state: layerState, services, parts, source }) {
     });
   }
 
+  function stageTypeLabel(stage) {
+    const named = stage?.type?.name;
+    if (typeof named === 'string' && named.trim()) return named.trim();
+    if (typeof stage?.type === 'string' && stage.type.trim())
+      return stage.type.trim();
+    return '';
+  }
+
   function normalizeLanding(stage, fallbackName, category, index) {
     const landing = stage?.landing;
     const location = landing?.landing_location || {};
     const launcher = stage?.launcher || stage?.spacecraft || {};
     const serial = launcher.serial_number || stage?.serial_number || null;
-    const stageType = stage?.type?.name || stage?.type || category;
+    const stageType = stageTypeLabel(stage);
     const attempted = landing?.attempt === true;
     const success = landing?.success;
     const recoveryType = landing?.type?.name || null;
@@ -62,7 +70,11 @@ export function createModel({ state: layerState, services, parts, source }) {
     return {
       id: String(stage?.id || landing?.id || `${category}-${index}`),
       category,
-      name: [stageType, serial].filter(Boolean).join(' · ') || fallbackName,
+      name: stageType
+        ? [stageType, serial].filter(Boolean).join(' · ')
+        : serial && serial !== fallbackName
+          ? `${fallbackName} · ${serial}`
+          : fallbackName,
       serial,
       reused: stage?.reused === true,
       flightNumber: finiteCoordinate(stage?.launcher_flight_number),
@@ -113,7 +125,9 @@ export function createModel({ state: layerState, services, parts, source }) {
           normalizeLanding(
             {
               ...flight,
-              type: payloads[index]?.type || 'Payload',
+              ...(payloads[index]?.type
+                ? { type: payloads[index].type }
+                : { type: null }),
               serial_number: payloads[index]?.name,
             },
             payloads[index]?.name || `载荷 ${index + 1}`,
