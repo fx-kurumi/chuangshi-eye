@@ -846,7 +846,7 @@ test('a provider-owned hold fails boundedly if its owner never settles', async (
       getSceneShotMediaHold: () => ({ pending: true, maxWaitMs: 0 }),
     } }]]);
     const scene = director._project.scenes[0];
-    await assert.rejects(director._holdShot(scene, scene.shots[0], { cancelled: false }), /bounded playback window/);
+    await assert.rejects(director._holdShot(scene, scene.shots[0], { cancelled: false }), /场景媒体未在限定时间内结束/);
   } finally { await director.destroy(); restore(); }
 });
 

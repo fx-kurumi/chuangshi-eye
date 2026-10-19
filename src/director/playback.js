@@ -63,7 +63,7 @@ export async function playSceneQueue(
     if (previousScene && previousScene.id !== queue[0].scene.id) {
       const released = await adapter.releaseScene(previousScene, token);
       if (!released)
-        throw new Error(`Could not leave scene: ${previousScene.title}`);
+        throw new Error(`无法离开场景：${previousScene.title}`);
     }
     for (let index = 0; index < queue.length && !cancelled(); index++) {
       const { scene, shot } = queue[index];

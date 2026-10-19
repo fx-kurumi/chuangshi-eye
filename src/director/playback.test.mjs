@@ -151,7 +151,7 @@ test('a prior scene must release before playback; a refused handoff starts no sh
       ...refused,
       previousScene: scenes[2],
     }),
-    /Could not leave scene: B/,
+    /无法离开场景：B/,
   );
   assert.deepEqual(refused.events, []);
 });
