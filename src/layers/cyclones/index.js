@@ -12,6 +12,7 @@ import {
 } from './rendering.js';
 import {
   CYCLONE_OVERLAY_SOURCE_ID,
+  cycloneClassificationName,
   cycloneStormIdFromEntryId,
 } from './labels.js';
 
@@ -19,21 +20,6 @@ const utc = (value) =>
   value ? `${value.slice(5, 16).replace('T', ' ')} UTC` : '暂无';
 const COVERAGE =
   '西北太平洋与南海（中央气象台）、大西洋与东/中北太平洋（NOAA NHC/CPHC）。';
-const CLASSIFICATION_NAMES = Object.freeze({
-  PTC: '潜在热带气旋',
-  HU: '飓风',
-  TS: '热带风暴',
-  TD: '热带低压',
-  SS: '亚热带风暴',
-  SD: '亚热带低压',
-  STS: '强热带风暴',
-  TY: '台风',
-  STY: '强台风',
-  SuperTY: '超强台风',
-  TC: '热带气旋',
-});
-const classificationName = (code) =>
-  Object.hasOwn(CLASSIFICATION_NAMES, code) ? CLASSIFICATION_NAMES[code] : code;
 const number = (value, unit) => (value === null ? '暂无' : `${value} ${unit}`);
 
 /** Advisory status and coherent forecast geometry; selected through the shared row list. */
@@ -334,7 +320,7 @@ export function createCyclonesLayer({
               ? geometry
               : null);
       const detail = storm
-        ? `${storm.name} · ${classificationName(storm.classification)} · 第 ${storm.advisoryNumber} 期 · 发布 ${utc(storm.issuedAt)}`
+        ? `${storm.name} · ${cycloneClassificationName(storm.classification)} · 第 ${storm.advisoryNumber} 期 · 发布 ${utc(storm.issuedAt)}`
         : empty
           ? '当前没有活跃的台风或飓风'
           : snapshot?.storms.length
@@ -385,7 +371,7 @@ export function createCyclonesLayer({
             id: item.id,
             ordinal: index + 1,
             lead: item.basin,
-            text: `${item.name} · ${classificationName(item.classification)} · ${item.windKt === null ? '风速暂无' : `${item.windKt} kt`}`,
+            text: `${item.name} · ${cycloneClassificationName(item.classification)} · ${item.windKt === null ? '风速暂无' : `${item.windKt} kt`}`,
             active: item.id === selectedId,
             params: { stormId: item.id, focus: true },
           })),

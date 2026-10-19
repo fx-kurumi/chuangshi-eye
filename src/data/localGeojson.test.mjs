@@ -545,11 +545,15 @@ async function enableLayerWithFetch(fetchImpl, { dataSources, windowStub } = {})
 test('a bundled-dataset failure reduces to a short, honest reason', () => {
   assert.equal(
     localDatasetError(new SyntaxError('Unexpected token < in JSON at position 0')),
-    'dataset is malformed',
+    '数据集格式无效',
   );
-  assert.equal(localDatasetError(new Error('HTTP 404')), 'dataset unavailable (HTTP 404)');
-  assert.equal(localDatasetError(new Error('')), 'dataset unavailable');
-  assert.equal(localDatasetError(undefined), 'dataset unavailable');
+  assert.equal(localDatasetError(new Error('HTTP 404')), '数据集不可用（HTTP 404）');
+  assert.equal(localDatasetError(new Error('')), '数据集不可用');
+  assert.equal(localDatasetError(undefined), '数据集不可用');
+  assert.equal(
+    localDatasetError(new Error('post-processing failed')),
+    '数据集不可用（详情未识别）',
+  );
 });
 
 test('a missing dataset reports UNAVAILABLE instead of a silent empty layer', async () => {
@@ -561,7 +565,7 @@ test('a missing dataset reports UNAVAILABLE instead of a silent empty layer', as
   const stats = layer.getStats();
   assert.equal(stats.count, 0);
   assert.equal(stats.lastUpdate, null);
-  assert.equal(stats.error, 'dataset unavailable (HTTP 404)');
+  assert.equal(stats.error, '数据集不可用（HTTP 404）');
   assert.equal(layerFeedState(stats), 'unavailable');
   cleanup();
 });
@@ -573,7 +577,7 @@ test('a corrupt dataset line reports malformed rather than parsing into nothing'
     text: async () => '{"type":"Feature"\n',
   }));
   const stats = layer.getStats();
-  assert.equal(stats.error, 'dataset is malformed');
+  assert.equal(stats.error, '数据集格式无效');
   assert.equal(layerFeedState(stats), 'unavailable');
   cleanup();
 });
@@ -650,7 +654,7 @@ test('a post-processing failure after the scene accepts the source rolls it back
   });
 
   const failed = layer.getStats();
-  assert.equal(failed.error, 'dataset unavailable (post-processing failed)');
+  assert.equal(failed.error, '数据集不可用（详情未识别）');
   assert.equal(failed.count, 0);
   assert.equal(failed.lastUpdate, null);
   assert.equal(layerFeedState(failed), 'unavailable');
@@ -672,7 +676,7 @@ test('a rejected scene add surfaces as an error instead of healthy stats', async
     dataSources: scene,
   });
   const stats = layer.getStats();
-  assert.equal(stats.error, 'dataset unavailable (scene rejected the data source)');
+  assert.equal(stats.error, '数据集不可用（详情未识别）');
   assert.equal(stats.count, 0);
   assert.equal(stats.lastUpdate, null);
   assert.equal(layerFeedState(stats), 'unavailable');

@@ -67,7 +67,7 @@ test('storm cards join the fire and vessel card tier with fire-card clearance', 
   }
   assert.equal(selected.position, input[0].position, 'renderer anchor as-is');
   assert.equal(selected.title, 'Fay');
-  assert.deepEqual(selected.details, ['TS']);
+  assert.deepEqual(selected.details, ['热带风暴']);
   assert.equal(selected.variant, 'selected');
   assert.equal(selected.selected, true);
   assert.equal(selected.protected, true);
@@ -76,7 +76,7 @@ test('storm cards join the fire and vessel card tier with fire-card clearance', 
   assert.equal(selected.gapPx, 20);
   assert.equal(selected.leaderOffsetPx, 14);
   assert.equal(ambient.title, 'Fifteen-E');
-  assert.deepEqual(ambient.details, ['PTC']);
+  assert.deepEqual(ambient.details, ['潜在热带气旋']);
   assert.equal(ambient.variant, 'card');
   assert.equal(ambient.protected, false);
   assert.equal(ambient.accent, '#7fe6ed');
@@ -190,6 +190,37 @@ test('publisher republishes on snapshots and selection changes, and hides on cle
   labels.clear();
   labels.setSelection('al062026');
   assert.equal(calls.length, 2, 'a cleared publisher stays quiet');
+});
+
+test('unknown classification codes stay on the card and blank codes add no detail', () => {
+  const [known] = cycloneOverlayEntries(
+    [
+      {
+        id: 'ex',
+        name: 'Ex',
+        classification: 'EX',
+        windKt: 20,
+        position: anchor(0, 0),
+        forecasts: [],
+      },
+    ],
+    null,
+  );
+  assert.deepEqual(known.details, ['EX']);
+  const [blank] = cycloneOverlayEntries(
+    [
+      {
+        id: 'blank',
+        name: 'Blank',
+        classification: '',
+        windKt: 0,
+        position: anchor(1, 1),
+        forecasts: [],
+      },
+    ],
+    null,
+  );
+  assert.deepEqual(blank.details, []);
 });
 
 test('storm identity resolves from card and lead-hour ids only', () => {
