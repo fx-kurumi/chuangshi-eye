@@ -6,7 +6,7 @@ export function resolveCameraPose(scene, camera) {
   const position = camera.anchorId
     ? scene?.anchors?.find(({ id }) => id === camera.anchorId)
     : camera;
-  if (!position) throw new Error('Camera anchor is unavailable');
+  if (!position) throw new Error('相机锚点不可用');
   return {
     lat: position.lat,
     lon: position.lon,

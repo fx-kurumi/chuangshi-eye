@@ -1911,19 +1911,19 @@ test('share tracking policies pin each owner, key, label, and acquisition deadli
       optionOwner: 'flights',
       optionKey: 'selectedFlightsTrackingId',
       expiryWindowMs: 90_000,
-      label: 'flight',
+      label: '航班',
     },
     military: {
       optionOwner: 'flights',
       optionKey: 'selectedMilitaryTrackingId',
       expiryWindowMs: 45_000,
-      label: 'military flight',
+      label: '军用航班',
     },
     satellites: {
       optionOwner: 'satellites',
       optionKey: 'selectedSatTrackingId',
       expiryWindowMs: 300_000,
-      label: 'satellite',
+      label: '卫星',
     },
   });
 });

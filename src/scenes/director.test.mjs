@@ -846,7 +846,7 @@ test('a provider-owned hold fails boundedly if its owner never settles', async (
       getSceneShotMediaHold: () => ({ pending: true, maxWaitMs: 0 }),
     } }]]);
     const scene = director._project.scenes[0];
-    await assert.rejects(director._holdShot(scene, scene.shots[0], { cancelled: false }), /bounded playback window/);
+    await assert.rejects(director._holdShot(scene, scene.shots[0], { cancelled: false }), /场景媒体未在限定时间内结束/);
   } finally { await director.destroy(); restore(); }
 });
 
@@ -1477,7 +1477,7 @@ test('invalid and unsupported imports retain the current project, selection and 
       assert.equal(director._project, project);
       assert.equal(director._selectedShotId, selected);
       assert.equal(localStorage.getItem('godsEyeView.sceneProject.v2'), saved);
-      assert.match(director._presentation.status, /Import failed: \$/);
+      assert.match(director._presentation.status, /导入失败：\$/);
     }
     let read = false;
     await director.importProjectFile({ size: 6 * 1024 * 1024, text: async () => { read = true; } });

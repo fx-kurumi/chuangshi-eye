@@ -31,6 +31,28 @@ export const CYCLONE_MARKER_PX = Object.freeze({
 const STORM_PRIORITY = 1000;
 const LEAD_PRIORITY = 500;
 
+/** Same names the advisory list uses. Unknown codes stay unchanged. */
+const CYCLONE_CLASSIFICATION_NAMES = Object.freeze({
+  PTC: '潜在热带气旋',
+  HU: '飓风',
+  TS: '热带风暴',
+  TD: '热带低压',
+  SS: '亚热带风暴',
+  SD: '亚热带低压',
+  STS: '强热带风暴',
+  TY: '台风',
+  STY: '强台风',
+  SuperTY: '超强台风',
+  TC: '热带气旋',
+});
+
+/** Display name for an advisory classification code. */
+export function cycloneClassificationName(code) {
+  return Object.hasOwn(CYCLONE_CLASSIFICATION_NAMES, code)
+    ? CYCLONE_CLASSIFICATION_NAMES[code]
+    : code;
+}
+
 const CYCLONE_OVERLAY_HOST = Object.freeze({
   setEntries: setOverlayEntries,
   setVisible: setOverlaySourceVisible,
@@ -59,7 +81,7 @@ const SHARED_CARD = Object.freeze({
 });
 
 /**
- * One card per storm: name, then the source classification code.
+ * One card per storm: name, then the classification in Chinese.
  * @param {{id:string,name:string,classification?:string,windKt?:?number,position:object}} storm
  * @param {boolean} selected
  * @returns {object}
@@ -74,7 +96,9 @@ export function cycloneStormEntry(storm, selected) {
     position: storm.position,
     variant: selected ? 'selected' : 'card',
     title: storm.name,
-    details: storm.classification ? [storm.classification] : [],
+    details: storm.classification
+      ? [cycloneClassificationName(storm.classification)]
+      : [],
     accent: selected ? CYCLONE_SELECTED_ACCENT : CYCLONE_ACCENT,
     selected,
     protected: selected,
