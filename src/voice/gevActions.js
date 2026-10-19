@@ -3667,7 +3667,7 @@ async function aircraftProximityWindowForQuery(
     scope: `window:${radiusKm}km@${label}`,
     followUp: false,
     feedProvenance,
-    note: `Contacts panel snapshot${snapshot.evaluatedAt ? ` at ${new Date(snapshot.evaluatedAt).toISOString()}` : ''} — the same retained cohort supplies the card, speech, and follow-up memory${complete ? '' : '; the count is a lower bound because at least one layer reached its retained limit'}.`,
+    note: `目标情境快照${snapshot.evaluatedAt ? ` · ${new Date(snapshot.evaluatedAt).toISOString()}` : ''}${complete ? '' : ' · 计数为下限'}`,
   };
   const answer = {
     ok: true,
@@ -4845,7 +4845,7 @@ const ANALYST_REFUSAL_FIELDS = Object.freeze([
   'cancelled',
 ]);
 
-const VIEWPORT_COVERAGE_NOTE = 'the flights layer loads by viewport';
+const VIEWPORT_COVERAGE_NOTE = '航班按当前视野加载';
 
 /** Resolve omitted follow-up scope from the engine's retained coverage. */
 function effectiveAnalystScopeKind(args, coverage) {
@@ -4950,7 +4950,7 @@ async function runAnalystQuery(
     .filter((l) => layerIsWarming(_layerEnabledAt, l.layerKey))
     .map((l) => l.layerKey);
   if (warming.length) {
-    const note = `${warming.join(', ')} just turned on — still loading, counts will rise`;
+    const note = `${warming.join('、')}刚打开，仍在加载，计数还会增加`;
     result.display.caveat = result.display.caveat
       ? `${note}; ${result.display.caveat}`
       : note;
