@@ -22,7 +22,7 @@ export function createSelection({
     const stationName = String(record?.stationName || '').trim();
     const stationLabel =
       stationName ||
-      (record?.stationId ? `Station ${record.stationId}` : 'Station');
+      (record?.stationId ? `站点 ${record.stationId}` : '站点');
     const bikes = Number.isFinite(record?.bikesAvailable)
       ? record.bikesAvailable
       : '?';
@@ -33,14 +33,14 @@ export function createSelection({
 
     const lines = [
       stationLabel,
-      `🚲 ${bikes} avail · ${docks} docks · ${capacity} cap`,
+      `🚲 可借 ${bikes} · 空位 ${docks} · 容量 ${capacity}`,
     ];
 
     // Append warnings for stations that are offline or partially non-operational
     const abnormal = [];
-    if (record?.isInstalled === false) abnormal.push('⚠️ Not installed');
-    if (record?.isRenting === false) abnormal.push('⚠️ Not renting');
-    if (record?.isReturning === false) abnormal.push('⚠️ Not returning');
+    if (record?.isInstalled === false) abnormal.push('⚠️ 未安装');
+    if (record?.isRenting === false) abnormal.push('⚠️ 暂停借出');
+    if (record?.isReturning === false) abnormal.push('⚠️ 暂停归还');
     if (abnormal.length > 0) {
       lines.push(abnormal.join(' · '));
     }

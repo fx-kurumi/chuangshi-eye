@@ -174,7 +174,7 @@ export function createCatalog({ state: layerState, services, parts, source }) {
         id,
         name: String(source.name || seed?.name || id),
         cityId,
-        city: String(source.city || city?.name || seed?.city || 'Global'),
+        city: String(source.city || city?.name || seed?.city || '全球'),
         provider: String(
           source.provider || seed?.provider || 'Configured CCTV Source',
         ),
